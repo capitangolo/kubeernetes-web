@@ -13,7 +13,7 @@ categories:
 draft: false
 ---
 
-## TODO
+TODO
 
 1. Fetch feature info
 2. Fetch deprecation info
@@ -22,15 +22,13 @@ draft: false
 5. Publish
 
 
-## Intro
-
 Brief summary of release
 
-## The Hot and Cool
+## The Hot and Cool {#hot}
 
 Hihglight of the coolest new features
 
-## Changes and Deprecations
+## Changes and Deprecations {#deprecations}
 
 Things that are deprecated and will stop working:
 - The `NetworkPolicyStatus` feature.
@@ -76,353 +74,353 @@ API version changes:
 - ValidatingAdmissionPolicyBinding: `v1alpha1` ➜ `v1beta1`.
 
 
-## Kubernetes 1.28 API
-
-### [#2340](https://github.com/kubernetes/enhancements/issues/2340) Consistent Reads from Cache
-
-**SIG group:** sig-api-machinery \
-**Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `False`
+## API
 
 
-### [#4020](https://github.com/kubernetes/enhancements/issues/4020) Unknown Version Interoperability Proxy
+### [#2340](https://github.com/kubernetes/enhancements/issues/2340) Consistent Reads from Cache {#2340}
 
 **SIG group:** sig-api-machinery \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#4008](https://github.com/kubernetes/enhancements/issues/4008) CRD Validation Ratcheting
+### [#4020](https://github.com/kubernetes/enhancements/issues/4020) Unknown Version Interoperability Proxy {#4020}
 
 **SIG group:** sig-api-machinery \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3157](https://github.com/kubernetes/enhancements/issues/3157) Allow informers for getting a stream of data instead of chunking
+### [#4008](https://github.com/kubernetes/enhancements/issues/4008) CRD Validation Ratcheting {#4008}
 
 **SIG group:** sig-api-machinery \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3716](https://github.com/kubernetes/enhancements/issues/3716) CEL-based admission webhook match conditions
+### [#3157](https://github.com/kubernetes/enhancements/issues/3157) Allow informers for getting a stream of data instead of chunking {#3157}
+
+**SIG group:** sig-api-machinery \
+**Stage:** Net New to **Alpha** \
+**Feature Gate:** `FOO` **Default:** `False`
+
+
+### [#3716](https://github.com/kubernetes/enhancements/issues/3716) CEL-based admission webhook match conditions {#3716}
 
 **SIG group:** sig-api-machinery \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3488](https://github.com/kubernetes/enhancements/issues/3488) CEL for Admission Control
+### [#3488](https://github.com/kubernetes/enhancements/issues/3488) CEL for Admission Control {#3488}
 
 **SIG group:** sig-api-machinery \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#2876](https://github.com/kubernetes/enhancements/issues/2876) CRD Validation Expression Language
+### [#2876](https://github.com/kubernetes/enhancements/issues/2876) CRD Validation Expression Language {#2876}
 
 **SIG group:** sig-api-machinery \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-## Apps in Kubernetes 1.28
+## Apps
 
 
-### [#3939](https://github.com/kubernetes/enhancements/issues/3939) Allow for recreation of pods once fully terminated in the job controller
+### [#3939](https://github.com/kubernetes/enhancements/issues/3939) Allow for recreation of pods once fully terminated in the job controller {#3939}
 
 **SIG group:** sig-apps \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3850](https://github.com/kubernetes/enhancements/issues/3850) Backoff Limit Per Index For Indexed Jobs
+### [#3850](https://github.com/kubernetes/enhancements/issues/3850) Backoff Limit Per Index For Indexed Jobs {#3850}
 
 **SIG group:** sig-apps \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#4026](https://github.com/kubernetes/enhancements/issues/4026) Add job creation timestamp to job annotations
+### [#4026](https://github.com/kubernetes/enhancements/issues/4026) Add job creation timestamp to job annotations {#4026}
 
 **SIG group:** sig-apps \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3329](https://github.com/kubernetes/enhancements/issues/3329) Retriable and non-retriable Pod failures for Jobs
+### [#3329](https://github.com/kubernetes/enhancements/issues/3329) Retriable and non-retriable Pod failures for Jobs {#3329}
 
 **SIG group:** sig-apps \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#4017](https://github.com/kubernetes/enhancements/issues/4017) Add Pod Index Label for StatefulSets and Indexed Jobs
+### [#4017](https://github.com/kubernetes/enhancements/issues/4017) Add Pod Index Label for StatefulSets and Indexed Jobs {#4017}
 
 **SIG group:** sig-apps \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-## Kubernetes 1.28 Auth
+## Auth
 
 
-### [#3299](https://github.com/kubernetes/enhancements/issues/3299) KMS v2 Improvements
+### [#3299](https://github.com/kubernetes/enhancements/issues/3299) KMS v2 Improvements {#3299}
 
 **SIG group:** sig-auth \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#2799](https://github.com/kubernetes/enhancements/issues/2799) Reduction of Secret-based Service Account Tokens
+### [#2799](https://github.com/kubernetes/enhancements/issues/2799) Reduction of Secret-based Service Account Tokens {#2799}
 
 **SIG group:** sig-auth \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3325](https://github.com/kubernetes/enhancements/issues/3325) Auth API to get self user attributes
+### [#3325](https://github.com/kubernetes/enhancements/issues/3325) Auth API to get self user attributes {#3325}
 
 **SIG group:** sig-auth \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-## CLI in Kubernetes 1.28
+## CLI
 
 
-### [#3895](https://github.com/kubernetes/enhancements/issues/3895) kubectl delete: Add interactive(-i) flag
+### [#3895](https://github.com/kubernetes/enhancements/issues/3895) kubectl delete: Add interactive(-i) flag {#3895}
 
 **SIG group:** sig-cli \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#1440](https://github.com/kubernetes/enhancements/issues/1440) kubectl events
+### [#1440](https://github.com/kubernetes/enhancements/issues/1440) kubectl events {#1440}
 
 **SIG group:** sig-cli \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-## Kubernetes 1.28 Instrumentation
+## Instrumentation
 
 
-### [#3498](https://github.com/kubernetes/enhancements/issues/3498) Extend metrics stability
+### [#3498](https://github.com/kubernetes/enhancements/issues/3498) Extend metrics stability {#3498}
 
 **SIG group:** sig-instrumentation \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-## Network in Kubernetes 1.28
+## Network
 
 
-### [#3836](https://github.com/kubernetes/enhancements/issues/3836) Kube-proxy improved ingress connectivity reliability
-
-**SIG group:** sig-network \
-**Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `False`
-
-
-### [#2681](https://github.com/kubernetes/enhancements/issues/2681) Field status.hostIPs added for Pod
+### [#3836](https://github.com/kubernetes/enhancements/issues/3836) Kube-proxy improved ingress connectivity reliability {#3836}
 
 **SIG group:** sig-network \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3668](https://github.com/kubernetes/enhancements/issues/3668) Reserve nodeport ranges for dynamic and static allocation
+### [#2681](https://github.com/kubernetes/enhancements/issues/2681) Field status.hostIPs added for Pod {#2681}
+
+**SIG group:** sig-network \
+**Stage:** Net New to **Alpha** \
+**Feature Gate:** `FOO` **Default:** `False`
+
+
+### [#3668](https://github.com/kubernetes/enhancements/issues/3668) Reserve nodeport ranges for dynamic and static allocation {#3668}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3458](https://github.com/kubernetes/enhancements/issues/3458) Remove transient node predicates from KCCM's service controller
+### [#3458](https://github.com/kubernetes/enhancements/issues/3458) Remove transient node predicates from KCCM's service controller {#3458}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3685](https://github.com/kubernetes/enhancements/issues/3685) Move EndpointSlice Reconciler into Staging
+### [#3685](https://github.com/kubernetes/enhancements/issues/3685) Move EndpointSlice Reconciler into Staging {#3685}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3453](https://github.com/kubernetes/enhancements/issues/3453) Minimizing iptables-restore input size
+### [#3453](https://github.com/kubernetes/enhancements/issues/3453) Minimizing iptables-restore input size {#3453}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3178](https://github.com/kubernetes/enhancements/issues/3178) Cleaning up IPTables Chain Ownership
+### [#3178](https://github.com/kubernetes/enhancements/issues/3178) Cleaning up IPTables Chain Ownership {#3178}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#2595](https://github.com/kubernetes/enhancements/issues/2595) Expanded DNS configuration
+### [#2595](https://github.com/kubernetes/enhancements/issues/2595) Expanded DNS configuration {#2595}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#1669](https://github.com/kubernetes/enhancements/issues/1669) Proxy Terminating Endpoints
+### [#1669](https://github.com/kubernetes/enhancements/issues/1669) Proxy Terminating Endpoints {#1669}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-## Kubernetes 1.28 Nodes
+## Nodes
 
 
-### [#4138](https://github.com/kubernetes/enhancements/issues/4138) [KEP-3085] Add condition for sandbox creation (xposted from original issue)
-
-**SIG group:** sig-node \
-**Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `False`
-
-
-### [#4033](https://github.com/kubernetes/enhancements/issues/4033) Discover cgroup driver from CRI
+### [#4138](https://github.com/kubernetes/enhancements/issues/4138) [KEP-3085] Add condition for sandbox creation (xposted from original issue) {#4138}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#4009](https://github.com/kubernetes/enhancements/issues/4009) Add CDI devices to device plugin API
+### [#4033](https://github.com/kubernetes/enhancements/issues/4033) Discover cgroup driver from CRI {#4033}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3983](https://github.com/kubernetes/enhancements/issues/3983) Add support for a drop-in kubelet configuration directory
+### [#4009](https://github.com/kubernetes/enhancements/issues/4009) Add CDI devices to device plugin API {#4009}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#753](https://github.com/kubernetes/enhancements/issues/753) Sidecar Containers
+### [#3983](https://github.com/kubernetes/enhancements/issues/3983) Add support for a drop-in kubelet configuration directory {#3983}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3063](https://github.com/kubernetes/enhancements/issues/3063) dynamic resource allocation
+### [#753](https://github.com/kubernetes/enhancements/issues/753) Sidecar Containers {#753}
+
+**SIG group:** sig-node \
+**Stage:** Net New to **Alpha** \
+**Feature Gate:** `FOO` **Default:** `False`
+
+
+### [#3063](https://github.com/kubernetes/enhancements/issues/3063) dynamic resource allocation {#3063}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3085](https://github.com/kubernetes/enhancements/issues/3085) Pod conditions around readiness to start containers after completion of pod sandbox creation
+### [#3085](https://github.com/kubernetes/enhancements/issues/3085) Pod conditions around readiness to start containers after completion of pod sandbox creation {#3085}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#127](https://github.com/kubernetes/enhancements/issues/127) Support User Namespaces in pods
+### [#127](https://github.com/kubernetes/enhancements/issues/127) Support User Namespaces in pods {#127}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#3545](https://github.com/kubernetes/enhancements/issues/3545) Improved multi-numa alignment in Topology Manager
+### [#3545](https://github.com/kubernetes/enhancements/issues/3545) Improved multi-numa alignment in Topology Manager {#3545}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#2400](https://github.com/kubernetes/enhancements/issues/2400) Node memory swap support
+### [#2400](https://github.com/kubernetes/enhancements/issues/2400) Node memory swap support {#2400}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3673](https://github.com/kubernetes/enhancements/issues/3673) Kubelet limit of Parallel Image Pulls
+### [#3673](https://github.com/kubernetes/enhancements/issues/3673) Kubelet limit of Parallel Image Pulls {#3673}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Beta** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#2403](https://github.com/kubernetes/enhancements/issues/2403) Extend podresources API to report allocatable resources
+### [#2403](https://github.com/kubernetes/enhancements/issues/2403) Extend podresources API to report allocatable resources {#2403}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3743](https://github.com/kubernetes/enhancements/issues/3743) graduate the kubelet podresources endpoint to GA
+### [#3743](https://github.com/kubernetes/enhancements/issues/3743) graduate the kubelet podresources endpoint to GA {#3743}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#606](https://github.com/kubernetes/enhancements/issues/606) Support 3rd party device monitoring plugins
+### [#606](https://github.com/kubernetes/enhancements/issues/606) Support 3rd party device monitoring plugins {#606}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-## Releases in Kubernetes 1.28
+## Releases
 
 
-### [#1731](https://github.com/kubernetes/enhancements/issues/1731) Publishing Kubernetes packages on community infrastructure
+### [#1731](https://github.com/kubernetes/enhancements/issues/1731) Publishing Kubernetes packages on community infrastructure {#1731}
 
 **SIG group:** sig-release \
 **Stage:** Net New to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-## Kubernetes 1.28 Storage
+## Storage
 
 
-### [#1790](https://github.com/kubernetes/enhancements/issues/1790) Support recovery from volume expansion failure
-
-**SIG group:** sig-storage \
-**Stage:** Graduating to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `False`
-
-
-### [#3762](https://github.com/kubernetes/enhancements/issues/3762) PersistentVolume last phase transition time
+### [#1790](https://github.com/kubernetes/enhancements/issues/1790) Support recovery from volume expansion failure {#1790}
 
 **SIG group:** sig-storage \
 **Stage:** Graduating to **Alpha** \
 **Feature Gate:** `FOO` **Default:** `False`
 
 
-### [#2268](https://github.com/kubernetes/enhancements/issues/2268) Non-graceful node shutdown
+### [#3762](https://github.com/kubernetes/enhancements/issues/3762) PersistentVolume last phase transition time {#3762}
+
+**SIG group:** sig-storage \
+**Stage:** Graduating to **Alpha** \
+**Feature Gate:** `FOO` **Default:** `False`
+
+
+### [#2268](https://github.com/kubernetes/enhancements/issues/2268) Non-graceful node shutdown {#2268}
 
 **SIG group:** sig-storage \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
 
 
-### [#3333](https://github.com/kubernetes/enhancements/issues/3333) Retroactive default StorageClass assignement
+### [#3333](https://github.com/kubernetes/enhancements/issues/3333) Retroactive default StorageClass assignement {#3333}
 
 **SIG group:** sig-storage \
 **Stage:** Graduating to **Stable** \
 **Feature Gate:** `FOO` **Default:** `True`
-
 
 
 ## Conclusion
