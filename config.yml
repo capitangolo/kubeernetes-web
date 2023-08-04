@@ -65,9 +65,9 @@ params:
     - name: github
       url: "https://github.com/capitangolo/kubeernetes-web"
 
-        #  analytics:
-        #    google:
-        #      SiteVerificationTag: "XYZabc"
+  analytics:
+    google:
+      SiteVerificationTag: "G-9KFREHKY4X"
         #    bing:
         #      SiteVerificationTag: "XYZabc"
         #    yandex:
