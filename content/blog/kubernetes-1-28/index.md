@@ -1,5 +1,6 @@
 ---
 title: "Kubernetes 1.28 - What's new?"
+slug: "kubernetes-1-28"
 date: 2023-08-01T08:00:00+02:00
 author:
  - Víctor Jiménez Cerrada
@@ -13,66 +14,57 @@ categories:
 draft: false
 ---
 
-TODO
+Kubernetes 1.28 will be out soon, and it brings 44 new or improved enhancements.
 
-1. ~~Fetch feature info~~
-2. ~~Fetch deprecation info~~
-3. Write about features
-4. Write intro & editor's summary?
-5. Publish
+By type:
+- **19** are new or improved **Alpha** enhancements that you can start testing.
+- **14** are **Beta** enhancements, enabled by default from now on.
+- **11** enhancements are considered **Stable**, and ready for prime time.
 
-
-Brief summary of release
+This version bring exciting security and quality of life improvements. Let's tap into them. 
 
 ## The Hot and Cool {#hot}
 
-Hihglight of the coolest new features
+Four trends and enhancements catched our eye.
 
-## Changes and Deprecations {#deprecations}
+### [#753 Sidecar Container](#753)
 
-Things that are deprecated and will stop working:
-- The `NetworkPolicyStatus` feature.
-- `kubectl version` now returns `kubectl version --short`, `--short` flag is removed.
-- Remove `KUBECTL_EXPLAIN_OPENAPIV3`.
+It's been years since **the sidecar pattern** started being promoted as a useful practice. Now it finally is a first-class citizen in Kubernetes.
 
-Things that have changed or are removed and there's an alternative:
-- Metrics:
-    - `scheduler_scheduler_goroutines` ➜ `scheduler_goroutines`.
-- azureFile in-tree storage plugin, use the CSI driver instead.
-- `node-role.kubernetes.io/master`: `--non-blocking-taints` no longer in the default value, add it manually if needed.
-- `k8s.io/kubernetes/pkg/kubelet/cri/streaming`  ➜ `k8s.io/kubelet/pkg/cri/streaming`.
-- KMSv1 ➜ Use KMSv2, or set `--feature-gates=KMSv1=true`.
-- Test suites replaced by the new table driven e2e tests:
-  - `NetworkPolicyLegacy`.
-  - `TestPerPodSchedulingMetrics`.
-- kube-scheduler: `--lock-object-namespace` and `--lock-object-name`  ➜ `--leader-elect-resource-namespace` and `--leader-elect-resource-name`.
-- `pvc.Status`: `resizeStatus` ➜ `AllocatedResourceStatus`
+Sidecars are auxiliary containers that sit along your main workloads to perform a bunch of tasks. For example, providing metrics, pre-fetching secrets, implementing service meshes, and more.
 
-Things that will stop working soon and you need to start planning for a replacement:
-- CephFS in-tree volume plugin: Use the [CephFS CSI driver](https://github.com/ceph/ceph-csi/) instead.
-- RBD in-tree volume plugin: Use the [RBD CSI driver](https://github.com/ceph/ceph-csi/) instead.
-- [k8s.io/code-generator](k8s.io/code-generator): `generate_groups.sh` and `generate_internal_groups.sh` ➜ `kube_codegen.sh`.
-- kube-controller-manager: `--volume-host-cidr-denylist` and `--volume-host-allow-local-loopback` flags.
-- Kubelet: `--azure-container-registry-config`  ➜ `--image-credential-provider-config` and `--image-credential-provider-bin-dir`.
-- For custom scheduler plugin developers: In `EnqueueExtension`, `EnqueueExtension` [changed some return values](https://github.com/kubernetes/kubernetes/pull/118551).
-- Metrics:
-    - `apiserver_flowcontrol_request_concurrency_in_use`  ➜ `apiserver_flowcontrol_current_executing_seats`.
-    - `apiserver_storage_db_total_size_in_bytes` ➜ `apiserver_storage_size_bytes metric`.
+In Kubernetes 1.28 implementing a sidecar container is easier and more reliable. Kubernetes workloads will be more reliable as a result, making dev, admins, and users happier.
 
-Other minor changes you may want to read more about:
-- metrics server bumped to `v0.6.3`.
-- metrics server metric-resolution is now `15s`.
-- Klog text output now uses JSON as encoding for structs, maps and slices.
-- etcd updated to `3.5.9-0`.
-- cri-tools updated to `v1.27.0`.
-- distroless-iptables bumped to `0.2.6`.
+[Read about the technical details of this feature](#753).
 
-API version changes:
-- KubeSchedulerConfiguration: `v1beta2` ➜ `v1`.
-- SelfSubjectReview: `v1beta1` ➜ `v1`.
-- ValidatingAdmissionPolicy: `v1alpha1` ➜ `v1beta1`.
-- ValidatingAdmissionPolicyBinding: `v1alpha1` ➜ `v1beta1`.
 
+### Optimization on Jobs
+
+Jobs got a lot of love in this release.
+
+Kubernetes jobs can start a big number of repetitive paralell tasks at once, which is ideal for Machine Learning workloads. You can see how Kubernetes is becoming a big player in this area, thanks to their continuous improvements in tools like jobs.
+
+We already discussed [#753 Sidecar Container](#753). This feature has a few  surprises for job users, like making sure that sidecars won't block a job completion.
+
+The [#3329 Retriable and non-retriable Pod failures for Jobs](#3329) and [#3850	Backoff Limit Per Index For Indexed Jobs](#3850) enhancements will provide more granularity to handle failures on jobs. Some failures are temporary or expected, and handling them differently will prevent the failure of a whole job.
+
+Finally [#3939 Allow for recreation of pods once fully terminated in the job controller](#3939), provides more control options when handling jobs that have finished. For sure, helpful to avoid some edge cases and race conditions.
+
+Again, improvements on Kubernetes jobs keep coming version after version, showing how much interest the (Machine Learning) community have on this feature.
+
+
+### Rolling upgrades
+
+Three new enhancements will make upgrades more reliable, and will reduce downtime. Definitely a quality of live improvement for administrators, for whom leaving the app in maintenance mode is a big fear.
+
+With [#4020 Unknown Version Interoperability Proxy](#4020), rolling upgrades of the cluster components will be better handled. Rolling upgrades meaning that not all the same components are upgraded at once, rather one by one, keeping old and new coexisting. In this case, when traffic is sent to a Kubernetes component that is down, it will be redirected to a peer that is ready.
+
+Finally, [#3836 Kube-proxy improved ingress connectivity reliability](#3836) and [#1669 Proxy terminating endpoints](#1669) will reduce the amount of killed connections when doing rolling upgrades. When a `Pod` is terminated to leave room for the new version, all its connections are killed too, leaving customers unhappy. With these enhancements, these connections will be let alone, letting the `Pod` terminate gracefully.
+
+Maintenance is a bit less scary with Kubernetes 1.28.
+
+
+### Publishing Kubernetes packages on community infrastructure
 
 ## API
 
@@ -87,7 +79,7 @@ This enhancement will improve the performance of some API requests like `GET` or
 
 This is possible thanks to `WatchProgressRequest` in etcd 3.4+, and will improve performance and scalability hugely on big deployments like 5k+ node clusters.
 
-If you wanna read more about the technical details and how data consistency is ensured, [check the KEP](https://github.com/kubernetes/enhancements/blob/master/keps/sig-api-machinery/2340-Consistent-reads-from-cache/README.md).
+If you wanna read more about the technical details and how data consistency is ensured, [tap into the KEP](https://github.com/kubernetes/enhancements/blob/master/keps/sig-api-machinery/2340-Consistent-reads-from-cache/README.md).
 
 
 ### [#3157](https://github.com/kubernetes/enhancements/issues/3157) Allow informers for getting a stream of data instead of chunking {#3157}
@@ -100,7 +92,7 @@ This feature build on top of the previous ([#2340](https://github.com/kubernetes
 
 If enabled, whoever wants data from the API server can stream (`WATCH`) the changes as they happen instead of pulling a complete `LIST` each time they need updated info.
 
-If you wanna read more about the technical details, [check the KEP](https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/3157-watch-list).
+If you wanna read more about the technical details, [tap into the KEP](https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/3157-watch-list).
 
 ### [#4020](https://github.com/kubernetes/enhancements/issues/4020) Unknown Version Interoperability Proxy {#4020}
 
@@ -402,21 +394,77 @@ With this featured enabled, the `Job` and `StatefulSet` controllers provide the 
 
 **SIG group:** sig-auth \
 **Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `KMSv2` **Default:** `true`
+
+This enhancement comprises the work to create a v2 of the Key Management Service (KMS), to solve some of the main issues of v1.
+
+The problems being:
+1. **Performance:** When starting a cluster, it needs to fetch and decrypt all the resources to fill the `kube-apiserver` cache. This may take some time, and hit some API rate limits, delaying the cluster startup.
+2. **Key rotation:** In v1, this is manual (error prone) process.
+3. **Health check and status:** In v1, it is required to perform encrypted calls to KMS plugins on performance checks.
+4. **Observability:** The lack of trace IDs makes it hard to correlate and investigate events across logs.
+
+V2 addresses this by:
+1. A new key hierarchy has been implemented to reduce network request to the remote vault.
+2. Extra metadata in KMS plugins allows `kube-apiserver` to rotate keys without a restart.
+3. A new status API can be used by KMS plugins to provide health information to the API server.
+4. A new `UID` field is available on `EncryptRequest` and `DecryptRequest`.
+
+If you wanna tap into more detail, check this article in the Kubernetes.io blog: [Kubernetes 1.25: KMS V2 Improvements](https://kubernetes.io/blog/2022/09/09/kms-v2-improvements/).
 
 
 ### [#2799](https://github.com/kubernetes/enhancements/issues/2799) Reduction of Secret-based Service Account Tokens {#2799}
 
 **SIG group:** sig-auth \
 **Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `LegacyServiceAccountTokenTracking` **Default:** `true`
+**Feature Gate:** `LegacyServiceAccountTokenCleanUp` **Default:** `true`
+
+Since Kubernetes 1.22, pods' service accounts can obtain tokens from the [TokenRequest API](https://kubernetes.io/docs/reference/kubernetes-api/authentication-resources/token-request-v1/) instead of auto generating them.
+
+This enhancement comprises the work to reduce the old style auto-generated tokens.
+
+In a first step (Kubernetes 1.24) the auto creation of secrets for service accounts was disabled, and users were encouraged to use the new API.
+
+Now, Kubernetes 1.28 will purge unused auto-generated tokens for these accounts. Tokens are considered unused after one year by default.
 
 
 ### [#3325](https://github.com/kubernetes/enhancements/issues/3325) Auth API to get self user attributes {#3325}
 
 **SIG group:** sig-auth \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `APISelfSubjectReview` **Default:** `true`
+
+This API provides information about who are you authenticated as, either if you are a user, or a `ServiceAccount`:
+
+```json
+{
+  "apiVersion": "authentication.k8s.io/v1alpha1",
+  "kind": "SelfSubjectReview",
+  "status": {
+    "userInfo": {
+      "name": "jane.doe",
+      "uid": "b6c7cfd4-f166-11ec-8ea0-0242ac120002",
+      "groups": [
+        "viewers",
+        "editors",
+        "system:authenticated"
+      ],
+      "extra": {
+        "provider_id": ["token.company.example"]
+      }
+    }
+  }
+}
+```
+
+You can also use a CLI command to get this information:
+
+```bash
+kubectl alpha auth whoami
+```
+
+This can be useful to troubleshoot authentication issues.
 
 
 ## CLI
@@ -425,15 +473,34 @@ With this featured enabled, the `Job` and `StatefulSet` controllers provide the 
 ### [#3895](https://github.com/kubernetes/enhancements/issues/3895) kubectl delete: Add interactive(-i) flag {#3895}
 
 **SIG group:** sig-cli \
-**Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Stage:** Net New to **Alpha**
+
+When this new `-i` or `--interactive` flag is present on `kubectl delete`, the following will happen:
+
+- The user will be shown a preview of the objects to be deleted.
+- The user will be able to confirm or cancel the deletion.
+
+```bash
+$ kubectl delete --interactive -f test_deployment.yaml 
+You are about to delete the following 2 resource(s):
+Deployment/dockerd
+Deployment/dockerd2
+Do you want to continue? (y/n): y
+deployment.apps "dockerd" deleted
+deployment.apps "dockerd2" deleted
+```
 
 
 ### [#1440](https://github.com/kubernetes/enhancements/issues/1440) kubectl events {#1440}
 
 **SIG group:** sig-cli \
-**Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Stage:** Graduating to **Stable**
+
+The new `kubectl events` is created to replace `kubectl get events` to scape some of the limitations of the `kubectl get` command.
+
+Listing events is a bit more different that other type of objects. For example you may want more control on the `--watch` option, or you may want to do advanced filtering.
+
+In Kubernetes 1.28 this new command is now stable.
 
 
 ## Instrumentation
@@ -442,8 +509,20 @@ With this featured enabled, the `Job` and `StatefulSet` controllers provide the 
 ### [#3498](https://github.com/kubernetes/enhancements/issues/3498) Extend metrics stability {#3498}
 
 **SIG group:** sig-instrumentation \
-**Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Stage:** Graduating to **Beta**
+
+Originally metrics were classified only between `stable` and `alpha`.
+
+You could check for this classification, and you would know that if a metric is `stable` it would be safe to use. However, if it was `alpha`, you knew its definition could change alogn the way breaking things.
+
+This enhancement adds two new stability levels:
+
+- `Internal`: Low-level metrics which do not correspod to features, and don't really provide actionable information to admins.
+- `Beta`: Metrics that are a bit more mature than `alpha`, but are not `stable` yet.
+
+The `beta` metrics offer more security than `alpha` ones in the sense that they won't be removed without being deprecated first.
+
+They also offer forward compatibility, meaning that the alerts and queries that you create with them will still work in the future.
 
 
 ## Network
@@ -453,164 +532,394 @@ With this featured enabled, the `Job` and `StatefulSet` controllers provide the 
 
 **SIG group:** sig-network \
 **Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `KubeProxyDrainingTerminatingNodes` **Default:** `false`
+
+This enhancement adds some features to `kube-proxy` to better manage the health of connections.
+
+In particular:
+
+1. Once a node is terminating, `kube-proxy` won't immediately terminate all the connections and will let them terminate gracefully.
+2. A new `/livez` path is added where vendors and users can define a `livenessProbe` to determine `kube-proxy` health. This method is more specific than just checking if the node is terminating.
+3. Provide guidelines for vendors to implement those health checks (Aligning them into a standard is not a goal at this stage).
+
+**Related:**
+- [#3458 Remove transient node predicates from KCCM's service controller](#3458).
+- [#1669 Proxy Terminating Endpoints](#1669).
 
 
 ### [#2681](https://github.com/kubernetes/enhancements/issues/2681) Field status.hostIPs added for Pod {#2681}
 
 **SIG group:** sig-network \
 **Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `PodHostIPs` **Default:** `false`
+
+Currently pods can check their host IP on the `status.hostIP` field. However, this field can only store one IP, and for some time Kubernetes allows for a [dual stack setup (both IPv4 and IPv6)](https://kubernetes.io/docs/concepts/services-networking/dual-stack/
+).
+
+A new `status.hostIPs` (note the final s) field has been added in Kubernetes 1.28 that will contain an array with all the host IPs.
+
+```bash 
+MY_HOST_IPS=fd00:10:20:0:3::3,10.20.3.3
+```
 
 
 ### [#3668](https://github.com/kubernetes/enhancements/issues/3668) Reserve nodeport ranges for dynamic and static allocation {#3668}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `ServiceNodePortStaticSubrange` **Default:** `true`
+
+When using a `NodePort` service, you may want to allocate a port statically, manually defining which port to use within the `service-node-port-range` (default `30000-32767`).
+
+However, you may find that your port has been already assigned dynamically to another service.
+
+This new feature reserves the first ports in `service-node-port-range` to be assigned statically. 
+
+The number of reserved ports is defined by this formula `min(max(16, nodeport-size / 32), 128)`, which returns a number between 16 and 128.
+
+For example, for the default range (`30000-32767`), it returns `86` ports. The range `30000-30085` will be reserved for static allocations, the rest for dynamic allocations.
+
+If you wanna learn more, check the Kubernetes.io blog [Kubernetes 1.27: Avoid Collisions Assigning Ports to NodePort Services](https://kubernetes.io/blog/2023/05/11/nodeport-dynamic-and-static-allocation/).
 
 
 ### [#3458](https://github.com/kubernetes/enhancements/issues/3458) Remove transient node predicates from KCCM's service controller {#3458}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `StableLoadBalancerNodeSet` **Default:** `true`
 
+This enhancement will change the way in which nodes are removed from the load balancer's node.
+
+Currently nodes are removed as soon as they are marked as terminating, either because they get the `ToBeDeletedByClusterAutoscaler` taint, or when the node is `NotReady`.
+
+This triggers a chain of events that is not desirable in some cases:
+
+- Connections are terminated immediately.
+- load balancers are re-synced, which can cause too many API calls that triggers some rate-limits on cloud providers.
+
+In two cases this behavior is not desired:
+
+- When a node is temporarily not ready.
+- When a node is terminating, and we want for connections to end gracefully.
+
+For those cases you can enable this feature. Then nodes won't be removed from the load balancer's node until fully deleted in the API server.
+
+**Related:**
+- [#3836 Kube-proxy improved ingress connectivity reliability](#3836).
+- [#1669 Proxy Terminating Endpoints](#1669).
 
 ### [#3685](https://github.com/kubernetes/enhancements/issues/3685) Move EndpointSlice Reconciler into Staging {#3685}
 
 **SIG group:** sig-network \
-**Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Stage:** Graduating to **Stable**
+
+This enhancement comprises the work done to expose the `EndpointSlice` reconciler logic, so it can be used in custom `Endpoint` controllers.
+
+This means refactor the code to move it from `pkg/controller/endpointslice` into a separate Go module `staging/src/k8s.io/endpointslice`. This new module will be easy to import into other projects.
+
+If you want to read the implementation details, [tap into the KEP](https://github.com/kubernetes/enhancements/tree/master/keps/sig-network/3685-endpointslice-reconciler-to-staging).
 
 
 ### [#3453](https://github.com/kubernetes/enhancements/issues/3453) Minimizing iptables-restore input size {#3453}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `MinimizeIPTablesRestore` **Default:** `true`
+
+This enhancement aims to improve `kube-proxy` performance in iptables mode. It will do so by changing the way `iptables-restore` works.
+
+Now the calls to `iptables-restore` won't need to include the rules that haven't changed.
+
+If you want to read the implementation details, [tap into the KEP](https://github.com/kubernetes/enhancements/blob/master/keps/sig-network/3453-minimize-iptables-restore/README.md).
 
 
 ### [#3178](https://github.com/kubernetes/enhancements/issues/3178) Cleaning up IPTables Chain Ownership {#3178}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `IPTablesOwnershipCleanup` **Default:** `true`
+
+Some components of Kubernetes, like `kubelet` and `kube-proxy`, create `iptables` chains for their internal usage.
+
+Those weren't meant to be used by third-party components, but they were sometimes.
+
+With the [deletion of dockershim](https://kubernetes.io/blog/2022/02/17/dockershim-faq/) and other code cleaning some of these chains are not needed and are being removed.
+
+If you wanna read more about the rationale behind this change, check out the Kubernetes.io blog [Kubernetes’s IPTables Chains Are Not API](https://kubernetes.io/blog/2022/09/07/iptables-chains-not-api/).
 
 
 ### [#2595](https://github.com/kubernetes/enhancements/issues/2595) Expanded DNS configuration {#2595}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `ExpandedDNSConfig` **Default:** `true`
+
+This enhancement reduces some limits for the DNS configuration.
+
+In particular allows for more DNS search paths, and longer DNS search paths lists.
+
+- `MaxDNSSearchPaths` increases from `6` to `32`.
+- `MaxDNSSearchListChars` increases from `256` to `2048`.
 
 
 ### [#1669](https://github.com/kubernetes/enhancements/issues/1669) Proxy Terminating Endpoints {#1669}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `ProxyTerminatingEndpoints` **Default:** `true`
 
+This enhancement improves how `kube-proxy` sends traffic to `Endpoint`s that are terminating. It prioritizes `Ready` endpoints that are not terminating, and if all endpoints are terminating, it prioritizes those that are still `Ready` or `Serving`.
+
+This aims to improve reliability in situations like rolling updates, where all endpoints may be terminating at some point. 
+
+If you wanna read more about this feature, check out the Kubernetes.io blog [Advancements in Kubernetes Traffic Engineering](https://kubernetes.io/blog/2022/12/30/advancements-in-kubernetes-traffic-engineering/).
+
+**Related:**
+- [#3458 Remove transient node predicates from KCCM's service controller](#3458).
+- [#3836 Kube-proxy improved ingress connectivity reliability](#3836).
 
 ## Nodes
 
 
-### [#4138](https://github.com/kubernetes/enhancements/issues/4138) [KEP-3085] Add condition for sandbox creation (xposted from original issue) {#4138}
+### [#4138](https://github.com/kubernetes/enhancements/issues/4138) [KEP-3085] Add condition for sandbox creation {#4138}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `PodReadyToStartContainersCondition` **Default:** `false`
+
+Starting with Kubernetes 1.28 there will be a new `Pod` `status.conditions` available: `PodReadyToStartContainers`.
+
+This condition will be `true` when the `Pod`:
+- Has a sandbox in the container runtime.
+- The sandbox has networking configured.
+
+This extra info may be useful in some cases:
+- For cluster admins, to track metrics and calculate how long it takes to start pods.
+- In future implementations of Kubernetes controllers, this information may be useful to tweak and optimize their behavior.
 
 
 ### [#4033](https://github.com/kubernetes/enhancements/issues/4033) Discover cgroup driver from CRI {#4033}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `KubeletCgroupDriverFromCRI` **Default:** `false`
 
+Currently you configure the cgroup driver in two places:
+- Your container runtime.
+- In `kubelet`.
 
-### [#4009](https://github.com/kubernetes/enhancements/issues/4009) Add CDI devices to device plugin API {#4009}
+If this configuration mismatches can lead to hard to troubleshoot issues.
 
-**SIG group:** sig-node \
-**Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+Starting with Kubernetes 1.28 you can let `kubelet` detect what is the cgroup driver that the container is using.
+
+For this detection to work, the container runtime must supports the `RuntimeConfig` CRI call. If not, `kubelet` will fall back to the `cgroupDriver` configuration setting.
 
 
 ### [#3983](https://github.com/kubernetes/enhancements/issues/3983) Add support for a drop-in kubelet configuration directory {#3983}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `ElasticIndexedJob` **Default:** `false`
+**Env variable:** `KUBELET_CONFIG_DROPIN_DIR_ALPHA`
 
+In Kubernetes 1.28 you can set up a configuration directoy, similar to what is possible right now with `kubelet`.
 
-### [#753](https://github.com/kubernetes/enhancements/issues/753) Sidecar Containers {#753}
+You can add the `--config-dir` CLI option, with files ended in `.conf` and content like:
+
+```yaml
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+address: "192.168.0.8"
+```
+
+This can be useful to separate a single configuration into several logical groups. For example having separate config files for authentication and DNS.
+
+Keep in mind that for this feature to work, you must also set the environment variable `KUBELET_CONFIG_DROPIN_DIR_ALPHA` to any value.
+
+### [#](https://github.com/kubernetes/enhancements/issues/753) Sidecar Containers {#753}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `SidecarContainers` **Default:** `false`
+
+The [sidecar pattern has been around for a long time](https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/#example-1-sidecar-containers), and it's been used for service meshes, gathering metrics, fetching secrets, and more. However, implementing it hasn't been trivial, or hassle free.
+
+Up until now there wasn't a way to say "hey, this is a sidecar container". As a result, sidecar containers could be killed before the main container finishes, or stay alive after messing up with jobs.
+
+Now you can set a new `restartPolicy` field to `Always` on an init container, and Kubernetes will handle it differently:
+
+
+- The `kubelet` won't wait until the container has finished, instead it will only wait until the startup has completed.
+- It will be restarted, unless the sidecar fails during startup and the `Pod` `restartPolicy` is `Never`. In this case the whole pod will fail.
+- The sidecar container will keep running for as long as the main container runs.
+- The sidecar container will be terminated once all regular containers complete. In this way, they won't prevent jobs from completing after the main container has finished.
+
+```yaml
+kind: Pod
+…
+spec:
+  initContainers:
+  - name: vault-agent
+    image: hashicorp/vault:1.12.1
+  - name: istio-proxy
+    image: istio/proxyv2:1.16.0
+    args: ["proxy", "sidecar"]
+    restartPolicy: Always
+  containers:
+…
+```
+
+
+### [#4009](https://github.com/kubernetes/enhancements/issues/4009) Add CDI devices to device plugin API {#4009}
+
+**SIG group:** sig-node \
+**Stage:** Net New to **Alpha** \
+**Feature Gate:** `DevicePluginCDIDevices` **Default:** `false`
+
+This enhancement builds upon [#3063 dynamic resource allocation](#3063), and allows device plugin authors to forward request to the container runtimes.
 
 
 ### [#3063](https://github.com/kubernetes/enhancements/issues/3063) dynamic resource allocation {#3063}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `DynamicResourceAllocation ` **Default:** `false`
 
+When dynamic resource allocation is enabled, pods can define what resources they need beyond CPU and memory.
 
-### [#3085](https://github.com/kubernetes/enhancements/issues/3085) Pod conditions around readiness to start containers after completion of pod sandbox creation {#3085}
+This is useful in edge setups, where there may be deployed sensors or other devices; and in ML workloads, where they need access to a GPU.
 
-**SIG group:** sig-node \
-**Stage:** Graduating to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-gpu
+spec:
+  containers:
+  - name: container-with-gpu
+    image: ubuntu:22.04
+    resources:
+      claims:
+      - name: gpu-1
+  resourceClaims:
+  - name: gpu-1
+    source:
+      resourceClaimTemplateName: resources-gpu
+```
+
+Dynamic resource allocation is the name of this new API for requesting and sharing resources: `resource.k8s.io/v1alpha2`. Resources will need their own specific driver.
+
+Although this feature was introduced in Kubernetes 1.26, it continues to evolve on each version as an Alpha.
+
+**Related:** [#4009 Add CDI devices to device plugin API](#4009)
 
 
 ### [#127](https://github.com/kubernetes/enhancements/issues/127) Support User Namespaces in pods {#127}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `UserNamespacesStatelessPodsSupport` **Default:** `false`
+
+By adding support for user namespaces in Kubernetes, you'll be able to run processes in pods with a different user than in the host.
+
+For example, a process in a `Pod` that runs as root may be running as an unprivileged user in the host. If that process is compromised, and escapes the container, the damage it can make will be limited.
+
+For now, this is a Linux only feature, and it relies on idmap mounts on the filesystems used. You will need:
+
+- At least a Linux 6.3 Kernel.
+- A filesystem that supports idmap (i.e. ext4, btrfs, xfs, fat, …).
+- A container runtime with support for idmap (i.e. CRI-O 1.25, containerd 1.7)
 
 
 ### [#3545](https://github.com/kubernetes/enhancements/issues/3545) Improved multi-numa alignment in Topology Manager {#3545}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `TopologyManagerPolicyOptions` **Default:** `true`
+**Feature Gate:** `TopologyManagerPolicyBetaOptions` **Default:** `true`
+
+When execution latency is a concern, you need to be aware of what CPU cores your workloads are running on.
+
+Server tend to have multi socket systems, and modern AMD CPUs are made of several chips on the same package. In those system those cores don't share an L2 cache, but rather an L3 or L4 one. This means that if your workload jumps from one core to another, you need extra time to move their context as well.
+
+This enhancement makes Kubernetes aware of these topologies, so it tries to place workloads in cores that are closer to each other.
+
+You enable this behavior by setting the `prefer-closest-numa-nodes` policy option on the `TopologyManager`.
+
+If you want to read more on the implementation details and the mathematics of this, [tap into the KEP](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/3545-improved-multi-numa-alignment/README.md). You can also get extra info [in the Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/#topology-manager-policy-options)
 
 
 ### [#2400](https://github.com/kubernetes/enhancements/issues/2400) Node memory swap support {#2400}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `NodeSwap` **Default:** `true`
+
+Kubernetes support for swap on Linux nodes enters the `beta` stage.
+
+To enable it you need to:
+- Disable the `failSwapOn` setting.
+- Enable the `NodeSwap` feature gate.
+- Define the `swapBehavior`.
+
+```yaml
+---
+apiVersion: "kubeadm.k8s.io/v1beta3"
+kind: InitConfiguration
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+failSwapOn: false
+featureGates:
+  NodeSwap: true
+memorySwap:
+  swapBehavior: LimitedSwap
+```
+
+You can choose two different strategies for `swapBehavior`:
+
+- `UnlimitedSwap`: The default option. Kubernetes workloads can use as much swap memory as they want (within the system limits).
+- `LimitedSwap`: Only Pods with [Burstable QoS](https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#burstable) can use swap memory.
+
+If you are interested, you can get more details on [this article from Kubernetes 1.22](https://kubernetes.io/blog/2021/08/09/run-nodes-with-swap-alpha/). Stay tuned, an updated blog article is being prepared for shortly after the Kubernetes 1.28 release.
 
 
 ### [#3673](https://github.com/kubernetes/enhancements/issues/3673) Kubelet limit of Parallel Image Pulls {#3673}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Beta** \
-**Feature Gate:** `FOO` **Default:** `true`
+
+By default, `kubelet` downloads images one after another. You can disable the `kubelet` config `serialize-image-pulls` option, so images can be downloaded in paralell.
+
+This enhancement adds control over this paralell download of images.
+
+You can set the `maxParallelImagePulls` option to define how many images a node can download at the same time.
+
+By default this option is set to `0`, meaning there is no limit.
 
 
 ### [#2403](https://github.com/kubernetes/enhancements/issues/2403) Extend podresources API to report allocatable resources {#2403}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `KubeletPodResourcesGetAllocatable` **Default:** `true`
+
+This endpoint to fetch information on the allocatable compute resources on a node is finally stable.
+
+The information offered by the `GetAllocatableResources` gRPC endpoint, combined with the on from the pod resources API endpoint, allows to calculate a node's capacity.
+
+Get more information [on the Kubernetes documentation](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#grpc-endpoint-getallocatableresources).
 
 
 ### [#3743](https://github.com/kubernetes/enhancements/issues/3743) graduate the kubelet podresources endpoint to GA {#3743}
 
 **SIG group:** sig-node \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `KubeletPodResources` **Default:** `true`
 
+This enhancement comprises the work to bring the [device plugin monitoring service](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/) ([#606 Support 3rd party device monitoring plugins](https://github.com/kubernetes/enhancements/issues/606)) to stable in Kubernetes 1.28.
 
-### [#606](https://github.com/kubernetes/enhancements/issues/606) Support 3rd party device monitoring plugins {#606}
-
-**SIG group:** sig-node \
-**Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+It allows to monitor what resources are provided by device plugins, the mapping to what pods are using them, and other metrics.
 
 
 ## Releases
@@ -619,8 +928,13 @@ With this featured enabled, the `Job` and `StatefulSet` controllers provide the 
 ### [#1731](https://github.com/kubernetes/enhancements/issues/1731) Publishing Kubernetes packages on community infrastructure {#1731}
 
 **SIG group:** sig-release \
-**Stage:** Net New to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Stage:** Net New to **Alpha**
+
+Following on the [recent change on image repositories](https://kubernetes.io/blog/2023/03/10/image-registry-redirect/), and aiming to decouple the project from Google's infrastructure, the Kubernetes project is providing community owned repositories for their deb and yum packages.
+
+The new repository `pkgs.k8s.io` adds to the existing `apt.kubernetes.io` and `yum.kubernetes.io`. The old ones will be deprecated at some point in the future.
+
+Stay tuned to the [Kubernetes.io blog](https://kubernetes.io/blog/), a new post will be published around release time with instructions to migrate to the new repos.
 
 
 ## Storage
@@ -630,29 +944,110 @@ With this featured enabled, the `Job` and `StatefulSet` controllers provide the 
 
 **SIG group:** sig-storage \
 **Stage:** Graduating to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `RecoverVolumeExpansionFailure ` **Default:** `false`
+
+For some time it's been possible to [recover from a failure when expanding a volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recovering-from-failure-when-expanding-volumes). For example, if you requested a size bigger than the CSI driver allows, you were able to recover by requesting a smaller size (bigger than the original size before the increase).
+
+In Kubernetes 1.28, the `pvc.Status.ResizeStatus` which contained information about the resizing process has changed. It has been renamed to `pvc.Status.AllocatedResourceStatus`, and now is a map able to contain multiple resources and their status.
 
 
 ### [#3762](https://github.com/kubernetes/enhancements/issues/3762) PersistentVolume last phase transition time {#3762}
 
 **SIG group:** sig-storage \
 **Stage:** Graduating to **Alpha** \
-**Feature Gate:** `FOO` **Default:** `false`
+**Feature Gate:** `PersistentVolumeLastPhaseTransitionTime` **Default:** `false`
 
+The persistent volume status now contains a `lastPhaseTransitionTime` field with the timestamp for the last phase transition of the volume.
+
+For example, when a volume is left unclaimed and changes phase to `Released`.
+
+This field, besides providing information to admins, will be very valuable for performance tests. It will also be useful when investigating issues like the data loss some user have experienced when changing the retain policy from `Delete` to `Retain`.
 
 ### [#2268](https://github.com/kubernetes/enhancements/issues/2268) Non-graceful node shutdown {#2268}
 
 **SIG group:** sig-storage \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `NodeOutOfServiceVolumeDetach` **Default:** `true`
+
+This enhancement allows a Kubernetes cluster to prepare for a shutdown, terminate the pods gracefully, properly releasing all the resources.
+
+You can do this by adding the `out-of-service` taint on the node:
+
+```bash
+kubectl taint nodes <node-name> node.kubernetes.io/out-of-service=nodeshutdown:NoExecute
+```
+
+In Kubernetes 1.28, some minor improvements were made to this feature:
+
+- The `force_delete_pods_total` and `force_delete_pod_errors_total` metrics now account for all forceful pod deletions. Also, the metric will include the reason why the pod is deleted (terminated, orphaned, terminating due to `out-of-service`, or terminating and unscheduled).
+- The `attachdetach_controller_forced_detaches` also contains a reason to know if the detach is caused by `out-of-service` or a timeout.
+
+Stay tuned to the [Kubernetes.io blog](https://kubernetes.io/blog/), a new post will be published around release time with more info.
 
 
 ### [#3333](https://github.com/kubernetes/enhancements/issues/3333) Retroactive default StorageClass assignement {#3333}
 
 **SIG group:** sig-storage \
 **Stage:** Graduating to **Stable** \
-**Feature Gate:** `FOO` **Default:** `true`
+**Feature Gate:** `RetroactiveDefaultStorageClass` **Default:** `true`
+
+Currently if you create a PersistentVolumeClaim without specifying a `storageClassName` for the new PVC. If you don't have a default class defined, your PVC will remain undefined, and you can go back and change this value later on.
+
+This enhancement changes this behaviour so that when you create a default `StorageClass`, it will be applied to all PVCs without a defined class.
+
+## Other Changes and Deprecations {#deprecations}
+
+Things that are deprecated and will stop working:
+- The `NetworkPolicyStatus` feature.
+- `kubectl version` now returns `kubectl version --short`, `--short` flag is removed.
+- Remove `KUBECTL_EXPLAIN_OPENAPIV3`.
+
+Things that have changed or are removed and there's an alternative:
+- Metrics:
+    - `scheduler_scheduler_goroutines` ➜ `scheduler_goroutines`.
+- azureFile in-tree storage plugin, use the CSI driver instead.
+- `node-role.kubernetes.io/master`: `--non-blocking-taints` no longer in the default value, add it manually if needed.
+- `k8s.io/kubernetes/pkg/kubelet/cri/streaming`  ➜ `k8s.io/kubelet/pkg/cri/streaming`.
+- KMSv1 ➜ Use KMSv2, or set `--feature-gates=KMSv1=true`.
+- Test suites replaced by the new table driven e2e tests:
+  - `NetworkPolicyLegacy`.
+  - `TestPerPodSchedulingMetrics`.
+- kube-scheduler: `--lock-object-namespace` and `--lock-object-name`  ➜ `--leader-elect-resource-namespace` and `--leader-elect-resource-name`.
+- `pvc.Status`: `resizeStatus` ➜ `AllocatedResourceStatus`
+
+Things that will stop working soon and you need to start planning for a replacement:
+- CephFS in-tree volume plugin: Use the [CephFS CSI driver](https://github.com/ceph/ceph-csi/) instead.
+- RBD in-tree volume plugin: Use the [RBD CSI driver](https://github.com/ceph/ceph-csi/) instead.
+- [k8s.io/code-generator](k8s.io/code-generator): `generate_groups.sh` and `generate_internal_groups.sh` ➜ `kube_codegen.sh`.
+- kube-controller-manager: `--volume-host-cidr-denylist` and `--volume-host-allow-local-loopback` flags.
+- Kubelet: `--azure-container-registry-config`  ➜ `--image-credential-provider-config` and `--image-credential-provider-bin-dir`.
+- For custom scheduler plugin developers: In `EnqueueExtension`, `EnqueueExtension` [changed some return values](https://github.com/kubernetes/kubernetes/pull/118551).
+- Metrics:
+    - `apiserver_flowcontrol_request_concurrency_in_use`  ➜ `apiserver_flowcontrol_current_executing_seats`.
+    - `apiserver_storage_db_total_size_in_bytes` ➜ `apiserver_storage_size_bytes metric`.
+
+Other minor changes you may want to read more about:
+- metrics server bumped to `v0.6.3`.
+- metrics server metric-resolution is now `15s`.
+- Klog text output now uses JSON as encoding for structs, maps and slices.
+- etcd updated to `3.5.9-0`.
+- cri-tools updated to `v1.27.0`.
+- distroless-iptables bumped to `0.2.6`.
+
+API version changes:
+- KubeSchedulerConfiguration: `v1beta2` ➜ `v1`.
+- SelfSubjectReview: `v1beta1` ➜ `v1`.
+- ValidatingAdmissionPolicy: `v1alpha1` ➜ `v1beta1`.
+- ValidatingAdmissionPolicyBinding: `v1alpha1` ➜ `v1beta1`.
+
 
 
 ## Conclusion
 
+Thanks for catching up on the latest Kubernetes version with us!
+
+If you are interested in Kubernetes you may consider:
+
+- [Reading the Kubernetes blog](https://kubernetes.io/blog/).
+- [Tapping into the Kubernetes Slack](https://kubernetes.slack.com/).
+- [Contributing to the Kubernetes project](https://www.kubernetes.dev/docs/guide/).
