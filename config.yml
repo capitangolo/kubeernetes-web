@@ -33,7 +33,7 @@ params:
   comments: false
   hidemeta: false
   hideSummary: false
-  showtoc: false
+  showtoc: true
   tocopen: false
 
   assets:
@@ -114,3 +114,5 @@ markup:
     # guessSyntax: true
     # lineNos: true
     # style: monokai
+  tableOfContents:
+    endLevel: 2
