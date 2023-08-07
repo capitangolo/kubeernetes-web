@@ -1,10 +1,15 @@
 ---
 title: "Kubernetes 1.28 - What's new?"
 slug: "kubernetes-1-28"
-date: 2023-08-08T08:00:00+02:00
+date: 2023-08-08T00:00:00+02:00
 author:
  - Víctor Jiménez Cerrada
 description: "Sidecar containers, Job optimizations, Better Proxys"
+cover:
+  image: "images/kubernetes-1-28-featured.png"
+  alt: "Kubernetes 1.28 - What's new? Sidecar containers, Job optimizations, Better Proxys"
+  relative: true
+  responsiveImages: true
 tags:
  - kubernetes
  - kubernetes 1.28
@@ -14,7 +19,7 @@ categories:
 draft: false
 ---
 
-**Kubernetes 1.28** will be out soon, and it brings 44 new or improved enhancements:
+**Kubernetes 1.28** will be out soon, and it brings **44 new or improved enhancements**:
 
 - **19** are new or improved **Alpha** enhancements that you can start testing.
 - **14** are **Beta** enhancements, enabled by default from now on.
