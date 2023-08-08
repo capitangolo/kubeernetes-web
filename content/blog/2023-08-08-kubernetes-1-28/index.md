@@ -27,7 +27,7 @@ draft: false
 
 This version bring exciting quality of life improvements. Let's tap into them. 
 
-## The Hot and Cool {#hot}
+## The Hot Stuff {#hot}
 
 Four trends and enhancements catched our eye.
 
@@ -78,7 +78,7 @@ Definitely a sign of maturity that will make the community stronger and will dri
 ## API
 
 
-### [#2340](https://github.com/kubernetes/enhancements/issues/2340) Consistent Reads from Cache {#2340}
+### [#2340](https://github.com/kubernetes/enhancements/issues/2340) Consistent Reads From Cache {#2340}
 
 **SIG group:** sig-api-machinery \
 **Stage:** Net New to **Alpha** \
@@ -591,7 +591,7 @@ For example, for the default range (`30000-32767`), it returns `86` ports. The r
 If you wanna learn more, check the Kubernetes.io blog [Kubernetes 1.27: Avoid Collisions Assigning Ports to NodePort Services](https://kubernetes.io/blog/2023/05/11/nodeport-dynamic-and-static-allocation/).
 
 
-### [#3458](https://github.com/kubernetes/enhancements/issues/3458) Remove Transient Node Predicates from KCCM's Service Controller {#3458}
+### [#3458](https://github.com/kubernetes/enhancements/issues/3458) Remove Transient Node Predicates From KCCM's Service Controller {#3458}
 
 **SIG group:** sig-network \
 **Stage:** Graduating to **Beta** \
@@ -707,7 +707,7 @@ This extra info may be useful in some cases:
 - In future implementations of Kubernetes controllers, this information may be useful to tweak and optimize their behavior.
 
 
-### [#4033](https://github.com/kubernetes/enhancements/issues/4033) Discover cgroup Driver from CRI {#4033}
+### [#4033](https://github.com/kubernetes/enhancements/issues/4033) Discover cgroup Driver From CRI {#4033}
 
 **SIG group:** sig-node \
 **Stage:** Net New to **Alpha** \
